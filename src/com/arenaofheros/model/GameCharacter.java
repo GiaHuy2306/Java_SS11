@@ -40,7 +40,26 @@ public abstract class GameCharacter {
         return hp;
     }
 
+    public int getAttackPower() {
+        return attackPower;
+    }
+
+    public void setAttackPower(int attackPower) {
+        this.attackPower = attackPower;
+    }
+
     public static   int getCount() {
         return count;
+    }
+
+    public boolean check(GameCharacter target) {
+        if (target == null) {
+            return false;
+        }
+        if (hp <= 0) {
+            System.out.printf("%s đã bị hạ gục, không thể tấn công!\n", name);
+            return false;
+        }
+        return true;
     }
 }

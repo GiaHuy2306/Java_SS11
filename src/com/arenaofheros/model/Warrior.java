@@ -11,25 +11,40 @@ public class Warrior extends GameCharacter implements ISkill {
 
     @Override
     public void attack(GameCharacter target) {
-        System.out.println("[Chiến binh] " + name + " tấn công!");
-        target.takeDamage(attackPower);
+
+        if (!super.check(target)) return;
+
+        int oldHp = target.getHp();
+        int damage = super.getAttackPower();
+
+        target.takeDamage(damage);
+
+        int realDamage = oldHp - target.getHp();
+
+        System.out.printf("[Chiến Binh] %s tấn công %s!\n",
+                super.getName(), target.getName());
+
+        System.out.printf("-> %s mất %d máu, HP còn: %d\n",
+                target.getName(), realDamage, target.getHp());
     }
 
     @Override
     public void useUltimate(GameCharacter target) {
-        System.out.println("[Chiến binh] " + name + " dùng ĐẤM NGÀN CÂN!");
-        target.takeDamage(attackPower * 2);
 
-        int selfDamage = (int)(hp * 0.1);
-        hp -= selfDamage;
-        System.out.println(name + " mất " + selfDamage + " HP do gắng sức!");
-    }
+        if (!super.check(target)) return;
 
-    @Override
-    public void takeDamage(int amount) {
-        int reduced = amount - armor;
-        if (reduced < 0) reduced = 0;
-        super.takeDamage(reduced);
+        int damage = super.getAttackPower() * 2;
+        int oldHp = target.getHp();
+
+        target.takeDamage(damage);
+
+        int realDamage = oldHp - target.getHp();
+
+        System.out.printf("[Chiến Binh] %s dùng ĐẤM NGÀN CÂN lên %s!\n",
+                super.getName(), target.getName());
+
+        System.out.printf("-> %s mất %d máu, HP còn: %d\n",
+                target.getName(), realDamage, target.getHp());
     }
 
     @Override

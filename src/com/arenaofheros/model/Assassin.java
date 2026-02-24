@@ -15,28 +15,43 @@ public class Assassin extends GameCharacter implements ISkill {
     @Override
     public void attack(GameCharacter target) {
 
-        int damage = attackPower;
+        if (!super.check(target)) return;
 
-        if (random.nextDouble() < 0.3) {
+        int damage = super.getAttackPower();
+        int oldHp = target.getHp();
+
+        if (Math.random() < 0.3) {
             damage *= 2;
-            System.out.println("[Assassin] CHÍ MẠNG!");
         }
 
-        System.out.println("[Assassin] " + name + " đâm lén!");
         target.takeDamage(damage);
+
+        int realDamage = oldHp - target.getHp();
+
+        System.out.printf("[Sát Thủ] %s đâm lén %s!\n",
+                super.getName(), target.getName());
+
+        System.out.printf("-> %s mất %d máu, HP còn: %d\n",
+                target.getName(), realDamage, target.getHp());
     }
 
     @Override
     public void useUltimate(GameCharacter target) {
 
-        if (energy < 30) {
-            System.out.println(name + " không đủ năng lượng!");
-            return;
-        }
+        if (!super.check(target)) return;
 
-        energy -= 30;
-        System.out.println("[Assassin] " + name + " dùng ÁM SÁT!");
-        target.takeDamage(attackPower * 3);
+        int damage = super.getAttackPower() * 3;
+        int oldHp = target.getHp();
+
+        target.takeDamage(damage);
+
+        int realDamage = oldHp - target.getHp();
+
+        System.out.printf("[Sát Thủ] %s dùng ÁM SÁT lên %s!\n",
+                super.getName(), target.getName());
+
+        System.out.printf("-> %s mất %d máu, HP còn: %d\n",
+                target.getName(), realDamage, target.getHp());
     }
 
     @Override

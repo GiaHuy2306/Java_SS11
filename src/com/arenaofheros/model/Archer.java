@@ -12,14 +12,20 @@ public class Archer extends GameCharacter implements ISkill {
     @Override
     public void attack(GameCharacter target) {
 
-        if (arrows <= 0) {
-            System.out.println(name + " hết tên!");
-            return;
-        }
+        if (!super.check(target)) return;
 
-        arrows--;
-        System.out.println("[Archer] " + name + " bắn tên!");
-        target.takeDamage((int)(attackPower * 1.2));
+        int damage = (int)(super.getAttackPower() * 1.2);
+        int oldHp = target.getHp();
+
+        target.takeDamage(damage);
+
+        int realDamage = oldHp - target.getHp();
+
+        System.out.printf("[Xạ Thủ] %s bắn %s!\n",
+                super.getName(), target.getName());
+
+        System.out.printf("-> %s mất %d máu, HP còn: %d\n",
+                target.getName(), realDamage, target.getHp());
     }
 
     @Override
